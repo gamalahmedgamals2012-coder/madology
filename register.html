@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - RECYCLING STORE</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="register-form">
+            <h2>Sign Up</h2>
+            <input type="text" id="username" placeholder="Email" required>
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="text" id="address" placeholder="Address" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button class="reg">Register</button>
+        </div>
+        <div class="form2">
+            <h3>Already have an account?</h3>
+            <button class="log"><a href="login.html">Log in</a></button>
+        </div>
+    </div>
+
+    <script>
+        const regBtn = document.querySelector(".reg");
+
+        regBtn.addEventListener("click", () => {
+            const email = document.querySelector("#username").value.trim();
+            const password = document.querySelector("#password").value.trim();
+            const username = document.querySelector("#name").value.trim();
+            const address = document.querySelector("#address").value.trim();
+
+            if (!email || !password || !username || !address) {
+                alert("Please fill in all fields!");
+                return;
+            }
+
+            fetch("http://localhost:5000/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password, username, address })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.userId) {
+                        localStorage.setItem("userId", data.userId);
+                        alert("Registration successful! You are now logged in.");
+                        window.location.href = "home.html";
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+    </script>
+</body>
+
+</html>

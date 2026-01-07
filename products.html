@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MADOLOGY - Products</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding-top: 80px;
+    }
+
+    /* NAV */
+    nav {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .title {
+      font-size: 32px;
+      color: #ff9d00;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .title span {
+      color: #1a1a1a;
+      font-size: 26px;
+    }
+
+    #nav li a {
+      font-weight: 600;
+      color: #000;
+      position: relative;
+    }
+
+    #nav li a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: #ff9d00;
+      transition: 0.3s;
+    }
+
+    #nav li a:hover::after {
+      width: 100%;
+    }
+
+    #nav li a:hover {
+      color: orange;
+    }
+
+    .register {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: #000;
+    }
+
+    .register:hover {
+      background-color: rgb(250, 249, 249);
+    }
+
+    /* PRODUCTS GRID */
+    .products-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .product-card {
+      background: #f5f5f5;
+      border-radius: 15px;
+      overflow: hidden;
+      width: 250px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .product-info {
+      padding: 10px;
+    }
+
+    .product-info span {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .product-info input[type="number"] {
+      width: 60px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    .buy {
+      display: inline-block;
+      background: #ff9d00;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .buy:hover {
+      background: #ff6a00;
+    }
+
+    /* GO UP BUTTON */
+    .go-up {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      background: orange;
+      color: #fff;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* CART */
+    #cart-icon {
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #000;
+    }
+
+
+    .cart-num {
+      background: red;
+      color: #fff;
+      border-radius: 50%;
+      width: 15px;
+      height: 15px;
+      font-size: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      top: -10px;
+      right: -5px;
+    }
+
+    .cart-tab {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 400px;
+      background: black;
+      color: white;
+      display: none;
+      overflow-y: auto;
+      padding: 20px;
+      z-index: 9;
+    }
+
+    .cart-tab h1 {
+      margin-bottom: 20px;
+    }
+
+    .cart-tab .orderBtn,
+    .cart-tab .close {
+      width: 180px;
+      height: 45px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .cart-tab .orderBtn {
+      background: #e8bc0e;
+    }
+
+    .cart-tab .close {
+      background: #555;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #2c2c2c;
+      color: #fff;
+      padding: 40px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .footer div {
+      flex: 1 1 250px;
+    }
+
+    .footer-links a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      margin-top: 6px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+
+    /* RESPONSIVE */
+    @media(max-width:992px) {
+      .products-container {
+        justify-content: space-around;
+      }
+    }
+
+    @media(max-width:576px) {
+      .product-card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <img src="./ascets/images/logo-icon.png" width="55">
+      <a class="title" href="home.html">MADO<span>LOGY</span></a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span
+          class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto" id="nav">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="products.html">Shop</a></li>
+        </ul>
+        <a href="register.html" class="register ms-3"><i class="fa-solid fa-user-plus"></i></a>
+        <div id="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-num">0</span></div>
+        <div class="cart-tab">
+          <h1>Shopping Cart</h1>
+          <div class="order">
+            <button class="orderBtn">Order Now</button>
+            <button class="close">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- PRODUCTS GRID -->
+  <div class="products-container">
+    <div class="product-card">
+      <img src="./ascets/clothes/product1.jpg" alt="">
+      <div class="product-info">
+        <span>22 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="./ascets/clothes/product2.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="./ascets/clothes/product3.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="./ascets/clothes/product4.jpg" alt="">
+      <div class="product-info">
+        <span>50 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product5.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product6.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product7.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product8.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product9.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product10.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product11.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product13.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="./ascets/clothes/product14.jpg" alt="">
+      <div class="product-info">
+        <span>15 L.E</span>
+        <input type="number" min="1" value="1">
+        <button class="buy">Add To Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GO UP BUTTON -->
+  <button class="go-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- CART ICON -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row gy-4">
+
+        <div class="col-lg-4 col-md-6">
+          <h3 class="footer-logo">MADOLOGY</h3>
+          <p class="footer-desc">
+            Modern fashion brand for bold and creative people.
+            Clean design. Real quality. Everyday style.
+          </p>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <h5>Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="products.html">Shop</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h5>Contact</h5>
+          <p>📞 +20 10 9077 3438</p>
+          <p>📍 Egypt,Beni Sweif</p>
+        </div>
+
+
+      </div>
+
+      <hr>
+
+      <p class="copyright">
+        © 2026 MADOLOGY. All rights reserved.
+      </p>
+    </div>
+  </footer>  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const go_up = document.querySelector(".go-up");
+      const cartIcon = document.getElementById("cart-icon");
+      const cartNum = document.querySelector(".cart-num");
+      const cartTab = document.querySelector(".cart-tab");
+      const closeBtn = cartTab.querySelector(".close");
+      const orderBtn = cartTab.querySelector(".orderBtn");
+      const buyButtons = document.querySelectorAll(".buy");
+
+      let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      // Show/hide go-up button
+      window.addEventListener("scroll", () => {
+        go_up.style.display = window.scrollY > 200 ? "block" : "none";
+      });
+
+      // Open/close cart
+      cartIcon.addEventListener("click", () => cartTab.style.display = "block");
+      closeBtn.addEventListener("click", () => cartTab.style.display = "none");
+
+      // Add to cart
+      buyButtons.forEach(btn => {
+        btn.addEventListener("click", e => {
+          const card = e.target.closest(".product-card");
+          const imgSrc = card.querySelector("img").getAttribute("src");
+          const price = parseFloat(card.querySelector("span").innerText.replace(" L.E", ""));
+          const quantity = parseInt(card.querySelector("input").value);
+          const name = card.querySelector("span").previousElementSibling?.innerText || "Product";
+
+          const existing = cartItems.find(item => item.img === imgSrc);
+          if (existing) {
+            existing.quantity += quantity;
+          } else {
+            cartItems.push({ img: imgSrc, price, quantity, name });
+          }
+
+          updateCart();
+        });
+      });
+
+      // Render cart
+      function renderCart() {
+        cartTab.querySelectorAll(".cart-item").forEach(e => e.remove());
+
+        cartItems.forEach((item, index) => {
+          const div = document.createElement("div");
+          div.classList.add("cart-item");
+          div.style.display = "flex";
+          div.style.alignItems = "center";
+          div.style.gap = "10px";
+          div.style.padding = "10px 0";
+          div.style.borderBottom = "1px solid #444";
+
+          const total = item.price * item.quantity;
+
+          div.innerHTML = `
+        <img src="${item.img}" style="width:50px;height:50px;border-radius:5px;">
+        <div style="flex:1">
+          <strong>${item.name}</strong><br>
+          ${item.price} L.E each
+        </div>
+        <input type="number" min="1" value="${item.quantity}" style="width:50px;">
+        <span>Total: ${total.toFixed(2)} L.E</span>
+        <button style="cursor:pointer;background:white;border:none;font-size:20px;">x</button>
+      `;
+
+          // Quantity change
+          const qtyInput = div.querySelector("input");
+          qtyInput.addEventListener("change", () => {
+            const val = parseInt(qtyInput.value);
+            if (val > 0) cartItems[index].quantity = val;
+            updateCart();
+          });
+
+          // Remove item
+          const removeBtn = div.querySelector("button");
+          removeBtn.addEventListener("click", () => {
+            cartItems.splice(index, 1);
+            updateCart();
+          });
+
+          cartTab.insertBefore(div, orderBtn);
+        });
+      }
+
+      // Update cart UI and localStorage
+      function updateCart() {
+        renderCart();
+        cartNum.innerText = cartItems.reduce((sum, i) => sum + i.quantity, 0);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      }
+
+      // Initial render
+      updateCart();
+    });
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - RECYCLING STORE</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button class="log">Login</button>
+        </div>
+        <div class="form2">
+            <h3>Don't have an account?</h3>
+            <button class="reg"><a href="register.html">Register</a></button>
+        </div>
+    </div>
+
+    <script>
+        const loginBtn = document.querySelector(".log");
+        loginBtn.addEventListener("click", () => {
+            const email = document.querySelector("#username").value.trim();
+            const password = document.querySelector("#password").value.trim();
+
+            if (!email || !password) {
+                alert("Please fill in all fields!");
+                return;
+            }
+
+            fetch("http://localhost:5000/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.userId) {
+                        localStorage.setItem("userId", data.userId);
+                        alert("Login successful!");
+                        window.location.href = "home.html";
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+    </script><style>
+    @media (max-width: 768px) {
+
+
+        .container {
+            display: flex;
+            align-self: center;
+            justify-self: center;
+            margin-top: 8em;
+            margin-bottom: 8em;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
+            transform: scale(0.85);
+            transform-origin: top center;
+        }
+
+        .register-form {
+            width: 22em;
+            height: 17em;
+        }
+
+        input {
+            padding: 15px;
+            height: 35px;
+            width: 22em;
+            margin: 15px;
+            font-size: 13px;
+        }
+
+        h2,
+        h3 {
+            margin: 15px;
+            font-size: 18px;
+        }
+
+        .reg {
+            margin: 15px;
+            padding: 8px;
+            width: 120px;
+            font-size: 13px;
+        }
+
+
+        .log {
+            margin: 25px;
+            padding: 8px;
+            width: 120px;
+            margin-left: 70px;
+            font-size: 13px;
+        }
+
+        .home {
+            top: 30em;
+            padding: 8px;
+            width: 120px;
+        }
+
+        a {
+            font-size: 13px;
+        }
+    }
+</style>
+</body>
+
+</html>
